@@ -1,8 +1,11 @@
-
-
-```json
 {
   "$schema": "https://railway.app/schema.json",
   "build": {
     "builder": "NIXPACKS"
-```
+  },
+  "start": "node server.js",
+  "env": {
+    "PORT": {
+      "value": "3000"
+    }
+  }
