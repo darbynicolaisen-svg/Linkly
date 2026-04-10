@@ -1,4 +1,4 @@
-
+{
   "name": "linkly",
   "version": "1.0.0",
   "description": "Link-in-bio analytics tool",
@@ -11,4 +11,11 @@
     "better-sqlite3": "^9.4.3",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
-```
+        "cors": "^2.8.5",
+    "uuid": "^9.0.1"
+  },
+  "optionalDependencies": {
+    "useragent": "^2.3.0",
+    "geoip-lite": "^1.4.7"
+  }
+}
