@@ -1,11 +1,11 @@
 {
   "$schema": "https://railway.app/schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install && npm run build"
   },
-  "start": "node server.js",
+  "start": "npm start",
   "env": {
-    "PORT": {
-      "value": "3000"
-    }
+    "NODE_ENV": "production"
   }
+}
