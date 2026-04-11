@@ -1,707 +1,76 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Linkly - Link Analytics for Creators</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <title>Linkly</title>
   <style>
-    :root {
-      --bg: #0a0a0b;
-      --surface: #141416;
-      --surface-2: #1c1c1f;
-``````html
-      --border: #2a2a2e;
-      --text: #f4f4f5;
-      --text-2: #a1a1aa;
-      --primary: #22c55e;
-      --primary-hover: #16a34a;
-      --danger: #ef4444;
-      --radius: 12px;
-    }
-    
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-``````html
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-    
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    
-    .auth-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-``````html
-      min-height: 100vh;
-      padding: 1rem;
-    }
-    
-    .auth-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 400px;
-    }
-    
-    .logo {
-      font-size: 1.75rem;
-``````html
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.5px;
-    }
-    
-    .logo span { color: var(--text); }
-    
-    .tagline {
-      color: var(--text-2);
-      margin-bottom: 2rem;
-      font-size: 0.95rem;
-    }
-    
-    h1 {
-``````html
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-    }
-    
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-    
-    label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: var(--text-2);
-``````html
-    }
-    
-    input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: 1rem;
-      font-family: inherit;
-      transition: border-color 0.2s;
-    }
-    
-    input:focus {
-``````html
-      outline: none;
-      border-color: var(--primary);
-    }
-    
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.75rem 1.5rem;
-      background: var(--primary);
-      color: #000;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: none;
-      border-radius: 8px;
-``````html
-      cursor: pointer;
-      transition: all 0.2s;
-      width: 100%;
-    }
-    
-    .btn:hover { background: var(--primary-hover); }
-    
-    .btn-secondary {
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    
-    .btn-secondary:hover { border-color: var(--text-2); }
-    
-```    .btn-small {
-      width: auto;
-      padding: 0.5rem 1rem;
-      font-size: 0.85rem;
-    }
-    
-    .btn-danger {
-      background: var(--danger);
-      color: white;
-    }
-    
-    .auth-footer {
-      margin-top: 1.5rem;
-      text-align: center;
-      color: var(--text-2);
-      ```html
-    .btn-small {
-      width: auto;
-      padding: 0.5rem 1rem;
-      font-size: 0.85rem;
-    }
-    
-    .btn-danger {
-      background: var(--danger);
-      color: white;
-    }
-    
-    .auth-footer {
-      margin-top: 1.5rem;
-      text-align: center;
-      color: var(--text-2);
-``````html
-      font-size: 0.9rem;
-    }
-    
-    .auth-footer a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-    
-    .auth-footer a:hover { text-decoration: underline; }
-    
-    .dashboard { display: none; }
-    
-    .header {
-      display: flex;
-      justify-content: space-between;
-``````html
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    
-    .header h1 {
-      font-size: 1.75rem;
-      margin: 0;
-    }
-    
-    .user-menu {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-``````html
-    .user-email {
-      color: var(--text-2);
-      font-size: 0.9rem;
-    }
-    
-    .logout-btn {
-      background: transparent;
-      color: var(--text-2);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-    }
-    
-``````html
-    .logout-btn:hover {
-      border-color: var(--danger);
-      color: var(--danger);
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-``````html
-      border-radius: var(--radius);
-      padding: 1.5rem;
-    }
-    
-    .stat-label {
-      color: var(--text-2);
-      font-size: 0.85rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-    }
-``````html
-    
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    
-    .section-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-    
-    .links-list {
-      display: flex;
-``````html
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    
-    .link-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: border-color 0.2s;
-    }
-    
-``````html
-    .link-card:hover {
-      border-color: var(--text-2);
-    }
-    
-    .link-info h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-    
-    .link-url {
-      font-size: 0.85rem;
-      color: var(--text-2);
-      max-width: 300px;
-      overflow: hidden;
-``````html
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    
-    .link-stats {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    
-    .link-clicks {
-      text-align: right;
-    }
-    
-    .link-clicks .count {
-``````html
-      font-size: 1.5rem;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    
-    .link-clicks .label {
-      font-size: 0.75rem;
-      color: var(--text-2);
-    }
-    
-    .tracking-url {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--surface-2);
-``````html
-      padding: 0.5rem 0.75rem;
-      border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-    }
-    
-    .copy-btn {
-      background: transparent;
-      border: none;
-      color: var(--primary);
-      cursor: pointer;
-      font-size: 0.8rem;
-    }
-    
-    .link-actions {
-``````html
-      display: flex;
-      gap: 0.5rem;
-    }
-    
-    .delete-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-2);
-      cursor: pointer;
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    
-    .delete-btn:hover { color: var(--danger); }
-    
-``````html
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-    
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-``````html
-      width: 100%;
-      max-width: 450px;
-      margin: 1rem;
-    }
-    
-    .modal h2 {
-      font-size: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .modal-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-``````html
-    
-    .modal-actions .btn { width: auto; }
-    
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: var(--surface);
-      border: 1px solid var(--primary);
-      color: var(--text);
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
-      display: none;
-      animation: slideIn 0.3s ease;
-    }
-``````html
-    
-    @keyframes slideIn {
-      from { transform: translateY(1rem); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--text-2);
-    }
-    
-    .empty-state h2 {
-      font-size: 1.25rem;
-      color: var(--text);
-``````html
-      margin-bottom: 0.5rem;
-    }
+    body { font-family: sans-serif; background: #0a0a0b; color: #fff; padding: 2rem; }
+    .container { max-width: 400px; margin: 0 auto; }
+    input { width: 100%; padding: 12px; margin: 8px 0; background: #1c1c1f; border: 1px solid #333; color: #fff; border-radius: 8px; }
+    button { width: 100%; padding: 12px; background: #22c55e; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .toggle { text-align: center; margin-top: 1rem; color: #888; }
+    .toggle a { color: #22c55e; }
+        .error { color: #ef4444; margin-top: 1rem; display: none; }
   </style>
 </head>
 <body>
-  <div id="auth-screen" class="auth-screen">
-    <div class="auth-card">
-      <div class="logo">Linkly<span>.</span></div>
-      <p class="tagline">Track clicks on your link-in-bio links</p>
-      
-      <h1 id="auth-title">Sign In</h1>
-      
-      <form id="auth-form">
-        <div class="form-group">
-          <label for="email">Email</label>
-``````html
-          <input type="email" id="email" required placeholder="you@example.com">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" required placeholder="••••••••">
-        </div>
-        <button type="submit" class="btn" id="auth-btn">Sign In</button>
-      </form>
-      
-      <p class="auth-footer">
-        <span id="auth-footer-text">Don't have an account?</span>
-        <a href="#" id="auth-toggle">Sign up</a>
-      </p>
-    </div>
+  <div class="container">
+    <h1 style="text-align:center;">Linkly</h1>
+    <h2 id="title" style="text-align:center;margin-bottom:1rem;">Sign In</h2>
+    
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="submit">Sign In</button>
+    
+    <p class="error" id="error"></p>
+    
+    <p class="toggle">
+           <span id="footer">Don't have an account?</span> 
+      <a href="#" id="toggle">Sign up</a>
+    </p>
   </div>
-``````html
-  
-  <div id="dashboard" class="dashboard">
-    <div class="container">
-      <div class="header">
-        <h1>Linkly</h1>
-        <div class="user-menu">
-          <span class="user-email" id="user-email"></span>
-          <button class="logout-btn" id="logout-btn">Logout</button>
-        </div>
-      </div>
-      
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Total Links</div>
-          <div class="stat-value" id="total-links">0</div>
-``````html
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total Clicks</div>
-          <div class="stat-value" id="total-clicks">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">This Month</div>
-          <div class="stat-value" id="month-clicks">0</div>
-        </div>
-      </div>
-      
-      <div class="section-header">
-        <h2 class="section-title">Your Links</h2>
-        <button class="btn btn-small" id="add-link-btn">+ Add Link</button>
-      </div>
-``````html
-      
-      <div class="links-list" id="links-list"></div>
-    </div>
-  </div>
-  
-  <div class="modal-overlay" id="add-modal">
-    <div class="modal">
-      <h2>Add New Link</h2>
-      <form id="add-link-form">
-        <div class="form-group">
-          <label for="link-name">Link Name</label>
-          <input type="text" id="link-name" required placeholder="e.g., My YouTube">
-        </div>
-        <div class="form-group">
-          <label for="target-url">Target URL</label>
-``````html
-          <input type="url" id="target-url" required placeholder="https://youtube.com/@yourchannel">
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn btn-secondary" id="cancel-add">Cancel</button>
-          <button type="submit" class="btn">Create Link</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
-  <div class="toast" id="toast">Copied!</div>
 
   <script>
-    const API = '';
     let isLogin = true;
-``````html
-    let token = localStorage.getItem('linkly_token');
-    
-    document.getElementById('auth-toggle').addEventListener('click', (e) => {
+    const emailEl = document.getElementById('email');
+    const passwordEl = document.getElementById('password');
+    const submitEl = document.getElementById('submit');
+    const titleEl = document.getElementById('title');
+    const footerEl = document.getElementById('footer');
+    const toggleEl = document.getElementById('toggle');
+    const errorEl = document.getElementById('error');
+       toggleEl.addEventListener('click', (e) => {
       e.preventDefault();
       isLogin = !isLogin;
-      document.getElementById('auth-title').textContent = isLogin ? 'Sign In' : 'Sign Up';
-      document.getElementById('auth-btn').textContent = isLogin ? 'Sign In' : 'Sign Up';
-      document.getElementById('auth-footer-text').textContent = isLogin ? "Don't have an account?" : "Already have an account?";
-      document.getElementById('auth-toggle').textContent = isLogin ? 'Sign up' : 'Sign in';
+      titleEl.textContent = isLogin ? 'Sign In' : 'Sign Up';
+      submitEl.textContent = isLogin ? 'Sign In' : 'Sign Up';
+      footerEl.textContent = isLogin ? "Don't have an account?" : "Already have an account?";
+      toggleEl.textContent = isLogin ? 'Sign up' : 'Sign in';
     });
-    
-    document.getElementById('auth-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-``````html
-      
+
+    submitEl.addEventListener('click', async () => {
+      const email = emailEl.value;
+      const password = passwordEl.value;
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+      
       const res = await fetch(endpoint, {
-        method: 'POST',
+             method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
       
       const data = await res.json();
+      
       if (!res.ok) {
-        alert(data.error);
+        errorEl.textContent = data.error;
+        errorEl.style.display = 'block';
         return;
       }
       
-      token = data.token;
-``````html
-      localStorage.setItem('linkly_token', token);
-      showDashboard();
-    });
-    
-    document.getElementById('logout-btn').addEventListener('click', () => {
-      localStorage.removeItem('linkly_token');
-      token = null;
-      location.reload();
-    });
-    
-    async function showDashboard() {
-      if (!token) {
-        document.getElementById('auth-screen').style.display = 'flex';
-        document.getElementById('dashboard').style.display = 'none';
-        return;
-``````html
-      }
-      
-      document.getElementById('auth-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      
-      const userRes = await fetch('/api/auth/me', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      
-      if (!userRes.ok) {
-        localStorage.removeItem('linkly_token');
-        location.reload();
-        return;
-      }
-      
-``````html
-      const user = await userRes.json();
-      document.getElementById('user-email').textContent = user.email;
-      
-      loadLinks();
-    }
-    
-    async function loadLinks() {
-      const res = await fetch('/api/links', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      
-      const links = await res.json();
-      const totalClicks = links.reduce((sum, l) => sum + l.click_count, 0);
-      
-      document.getElementById('total-links').textContent = links.length;
-``````html
-      document.getElementById('total-clicks').textContent = totalClicks;
-      document.getElementById('month-clicks').textContent = totalClicks;
-      
-      const list = document.getElementById('links-list');
-      
-      if (links.length === 0) {
-        list.innerHTML = `
-          <div class="empty-state">
-            <h2>No links yet</h2>
-            <p>Add your first link to start tracking clicks</p>
-          </div>
-        `;
-        return;
-      }
-      
-``````html
-      list.innerHTML = links.map(link => `
-        <div class="link-card">
-          <div class="link-info">
-            <h3>${link.name}</h3>
-            <p class="link-url">${link.target_url}</p>
-          </div>
-          <div class="link-stats">
-            <div class="tracking-url">
-              <span>${window.location.origin}/t/${link.short_code}</span>
-              <button class="copy-btn" onclick="copyUrl('${link.short_code}')">Copy</button>
-            </div>
-            <div class="link-clicks">
-              <div class="count">${link.click_count}</div>
-              <div class="label">clicks</div>
-            </div>
-``````html
-            <div class="link-actions">
-              <button class="delete-btn" onclick="deleteLink('${link.id}')">🗑</button>
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-    
-    function copyUrl(shortCode) {
-      const url = `${window.location.origin}/t/${shortCode}`;
-      navigator.clipboard.writeText(url);
-      showToast();
-    }
-    
-    function showToast() {
-``````html
-      const toast = document.getElementById('toast');
-      toast.style.display = 'block';
-      setTimeout(() => toast.style.display = 'none', 2000);
-    }
-    
-    async function deleteLink(id) {
-      if (!confirm('Delete this link?')) return;
-      
-      const res = await fetch('/api/links/' + id, {
-        method: 'DELETE',
-        headers: { 'Authorization': 'Bearer ' + token }
-      });
-      
-      if (res.ok) loadLinks();
-    }
-``````html
-    
-    document.getElementById('add-link-btn').addEventListener('click', () => {
-      document.getElementById('add-modal').style.display = 'flex';
-    });
-    
-    document.getElementById('cancel-add').addEventListener('click', () => {
-      document.getElementById('add-modal').style.display = 'none';
-    });
-    
-    document.getElementById('add-link-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('link-name').value;
-      const targetUrl = document.getElementById('target-url').value;
-      
-      const res = await fetch('/api/links', {
-``````html
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({ name, targetUrl })
-      });
-      
-      if (res.ok) {
-        document.getElementById('add-modal').style.display = 'none';
-        document.getElementById('add-link-form').reset();
-        loadLinks();
-      }
-    });
-    
-``````html
-    showDashboard();
+      localStorage.setItem('linkly_token', data.token);
+      alert('Logged in! Token: ' + data.token.substring(0, 20) + '...');
+          });
   </script>
 </body>
 </html>
-```
