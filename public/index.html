@@ -5,116 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Linkly</title>
   <style>
-    body { font-family: sans-serif; background: #0a0a0b; color: #fff; padding: 2rem; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0a0b; color: #fff; padding: 2rem; }
     .container { max-width: 600px; margin: 0 auto; }
-    input { width: 100%; padding: 12px; margin: 8px 0; background: #1c1c1f; border: 1px solid #333; color: #fff; border-radius: 8px; }
-    button { padding: 12px 24px; background: #22c55e; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .error { color: #ef4444; margin-top: 1rem; }
-    .auth-box { max-width: 400px; margin: 0 auto; text-align: center; }
-    .link-card { background: #1c1c1f; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
-    .link-url { color: #22c55e; font-family: monospace; }
+    h1 { text-align: center; }
+    .card { background: #1c1c1f; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; }
+    input { width: 100%; padding: 12px; margin: 8px 0; background: #2a2a2e; border: 1px solid #333; color: #fff; border-radius: 8px; box-sizing: border-box; }
+    input:focus { outline: none; border-color: #22c55e; }
+        button { width: 100%; padding: 14px; background: #22c55e; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+    button:hover { background: #16a34a; }
+    .toggle { text-align: center; margin-top: 1rem; color: #888; }
+    .toggle a { color: #22c55e; text-decoration: none; }
+    .error { color: #ef4444; margin-top: 1rem; display: none; text-align: center; }
     .hidden { display: none; }
-    .header { display: flex; justify-content: space-between; align-items: center; }
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
-    .stat { background: #1c1c1f; padding: 1rem; text-align: center; border-radius: 8px; }
-    .stat-value { font-size: 2rem; font-weight: bold; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .logout-btn { width: auto; background: #333; color: #fff; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat { background: #1c1c1f; padding: 1.5rem; text-align: center; border-radius: 12px; }
+    .stat-value { font-size: 2.5rem; font-weight: bold; }
+    .stat-label { color: #888; font-size: 14px; }
+    .link-card { background: #2a2a2e; padding: 1rem; margin: 0.5rem 0; border-radius: 8px; }
+    .link-name { font-size: 18px; font-weight: bold; }
+    .link-url { color: #22c55e; font-family: monospace; font-size: 14px; }
+       .link-stats { color: #888; margin-top: 0.5rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; margin-bottom: 0.5rem; color: #aaa; }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Auth Screen -->
-    <div id="auth-screen" class="auth-box">
-          <h1>Linkly</h1>
-      <h2 id="title">Sign In</h2>
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button id="submit">Sign In</button>
-      <p class="error" id="error"></p>
-      <p><span id="footer">Don't have an account?</span> <a href="#" id="toggle">Sign up</a></p>
+    <div id="auth-screen">
+      <h1>🔗 Linkly</h1>
+      <div class="card">
+        <h2 id="auth-title" style="text-align:center;margin-bottom:1.5rem;">Sign In</h2>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" id="email" placeholder="you@example.com">
+        </div>
+                <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" id="password" placeholder="••••••••">
+        </div>
+        <button type="button" id="submit-btn">Sign In</button>
+        <p class="error" id="error-msg"></p>
+        <p class="toggle">
+          <span id="toggle-text">Don't have an account?</span> 
+          <a href="javascript:void(0)" id="toggle-link">Sign up</a>
+        </p>
+      </div>
     </div>
 
-    <!-- Dashboard -->
     <div id="dashboard" class="hidden">
       <div class="header">
-        <h1>Linkly</h1>
-        <button onclick="logout()" style="background:#333;color:#fff;">Logout</button>
+            <h1>🔗 Linkly</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
       </div>
-            
+
       <div class="stats">
         <div class="stat">
           <div class="stat-value" id="total-links">0</div>
-          <div>Links</div>
+          <div class="stat-label">Links</div>
         </div>
         <div class="stat">
           <div class="stat-value" id="total-clicks">0</div>
-          <div>Clicks</div>
+          <div class="stat-label">Clicks</div>
         </div>
       </div>
+           <div class="card">
+        <h3>➕ Add New Link</h3>
+        <div class="form-group">
+          <label class="form-label">Link Name</label>
+          <input type="text" id="link-name" placeholder="e.g., My YouTube Channel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Target URL</label>
+          <input type="url" id="link-url" placeholder="e.g., https://youtube.com/@yourchannel">
+        </div>
+        <button type="button" onclick="addLink()">Add Link</button>
+      </div>
 
-      <h3>Add New Link</h3>
-      <input type="text" id="link-name" placeholder="Link Name (e.g., YouTube)">
-      <input type="url" id="link-url" placeholder="Target URL (e.g., https://youtube.com)">
-            <button onclick="addLink()">Add Link</button>
-
-      <h3>Your Links</h3>
-      <div id="links-list"></div>
-    </div>
+      <h3>📋 Your Links</h3>
+      <div id="links-container"></div>
+          </div>
   </div>
 
   <script>
     let isLogin = true;
     let token = localStorage.getItem('linkly_token');
-    
-    const emailEl = document.getElementById('email');
-    const passwordEl = document.getElementById('password');
-    const submitEl = document.getElementById('submit');
-    const titleEl = document.getElementById('title');
-        const footerEl = document.getElementById('footer');
-    const toggleEl = document.getElementById('toggle');
-    const errorEl = document.getElementById('error');
-    const authScreen = document.getElementById('auth-screen');
-    const dashboard = document.getElementById('dashboard');
 
     if (token) showDashboard();
 
-    toggleEl.addEventListener('click', (e) => {
-      e.preventDefault();
+    document.getElementById('toggle-link').addEventListener('click', function() {
       isLogin = !isLogin;
-      titleEl.textContent = isLogin ? 'Sign In' : 'Sign Up';
-      submitEl.textContent = isLogin ? 'Sign In' : 'Sign Up';
-      footerEl.textContent = isLogin ? "Don't have an account?" : "Already have an account?";
-      toggleEl.textContent = isLogin ? 'Sign up' : 'Sign in';
-          });
+      document.getElementById('auth-title').textContent = isLogin ? 'Sign In' : 'Sign Up';
+      document.getElementById('submit-btn').textContent = isLogin ? 'Sign In' : 'Sign Up';
+      document.getElementById('toggle-text').textContent = isLogin ? "Don't have an account?" : "Already have an account?";
+      document.getElementById('toggle-link').textContent = isLogin ? 'Sign up' : 'Sign in';
+            document.getElementById('error-msg').style.display = 'none';
+    });
 
-    submitEl.addEventListener('click', async () => {
-      const email = emailEl.value;
-      const password = passwordEl.value;
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      
-      const data = await res.json();
-           if (!res.ok) {
-        errorEl.textContent = data.error;
+    document.getElementById('submit-btn').addEventListener('click', async function() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error-msg');
+
+      if (!email || !password) {
+        errorEl.textContent = 'Please fill in all fields';
+        errorEl.style.display = 'block';
         return;
       }
-      
-      localStorage.setItem('linkly_token', data.token);
-      showDashboard();
+
+      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+            try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorEl.textContent = data.error || 'An error occurred';
+          errorEl.style.display = 'block';
+          return;
+        }
+                token = data.token;
+        localStorage.setItem('linkly_token', token);
+        showDashboard();
+      } catch (err) {
+        errorEl.textContent = 'Network error. Please try again.';
+        errorEl.style.display = 'block';
+      }
     });
 
     function logout() {
       localStorage.removeItem('linkly_token');
       location.reload();
     }
-
-    async function showDashboard() {
-          authScreen.classList.add('hidden');
-      dashboard.classList.remove('hidden');
+        function showDashboard() {
+      document.getElementById('auth-screen').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
       loadLinks();
     }
 
@@ -122,47 +152,57 @@
       const res = await fetch('/api/links', {
         headers: { 'Authorization': 'Bearer ' + token }
       });
+
+      if (!res.ok) { logout(); return; }
+
       const links = await res.json();
-      
       let totalClicks = 0;
-      links.forEach(l => totalClicks += l.click_count);
-      
+            links.forEach(l => totalClicks += l.click_count);
+
       document.getElementById('total-links').textContent = links.length;
-            document.getElementById('total-clicks').textContent = totalClicks;
-      
-      const list = document.getElementById('links-list');
+      document.getElementById('total-clicks').textContent = totalClicks;
+
+      const container = document.getElementById('links-container');
       if (links.length === 0) {
-        list.innerHTML = '<p>No links yet. Add one above!</p>';
+        container.innerHTML = '<p style="text-align:center;color:#888;">No links yet. Add your first link above!</p>';
         return;
       }
-      
-      list.innerHTML = links.map(link => `
+
+      container.innerHTML = links.map(link => `
         <div class="link-card">
-          <strong>${link.name}</strong><br>
-          <span class="link-url">${window.location.origin}/t/${link.short_code}</span>
-          <br>Clicks: ${link.click_count}
+          <div class="link-name">${link.name}</div>
+          <div class="link-url">${window.location.origin}/t/${link.short_code}</div>
+                   <div class="link-stats">👀 ${link.click_count} clicks</div>
         </div>
       `).join('');
-          }
+    }
 
     async function addLink() {
-      const name = document.getElementById('link-name').value;
-      const targetUrl = document.getElementById('link-url').value;
-      
+      const name = document.getElementById('link-name').value.trim();
+      const targetUrl = document.getElementById('link-url').value.trim();
+
+      if (!name || !targetUrl) {
+        alert('Please fill in both fields');
+        return;
+      }
+
       const res = await fetch('/api/links', {
-        method: 'POST',
+               method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify({ name, targetUrl })
       });
-            if (res.ok) {
+
+      if (res.ok) {
         document.getElementById('link-name').value = '';
         document.getElementById('link-url').value = '';
         loadLinks();
+      } else {
+        alert('Failed to add link');
       }
-    }
+          }
   </script>
 </body>
 </html>
