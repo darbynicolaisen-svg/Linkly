@@ -5,7 +5,6 @@ const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'linkly-secret-key-change-in-prod';
@@ -21,14 +20,21 @@ try {
 } catch (e) {}
 
 const saveDb = () => fs.writeFileSync(dbFile, JSON.stringify(db, null, 2));
-
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+
+// Serve landing page at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'landing'));
+});
+
+// Serve static app at /dashboard
+app.use('/dashboard', express.static(path.join(__dirname, 'public')));
+
 const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: 'No token provided' });
-  const token = authHeader.split(' ')[1];
+    const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.userId = decoded.userId;
@@ -55,9 +61,8 @@ app.post('/api/auth/register', async (req, res) => {
 
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
-   const user = db.users.find(u => u.email === email);
+  const user = db.users.find(u => u.email === email);
   if (!user) return res.status(401).json({ error: 'Invalid credentials' });
-  
   const valid = await bcrypt.compare(password, user.password_hash);
   if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
   
@@ -69,10 +74,11 @@ app.get('/api/auth/me', authenticate, (req, res) => {
   const user = db.users.find(u => u.id === req.userId);
   res.json(user);
 });
+
 // Links
 app.get('/api/links', authenticate, (req, res) => {
   const links = db.links.filter(l => l.user_id === req.userId).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-  res.json(links);
+    res.json(links);
 });
 
 app.post('/api/links', authenticate, (req, res) => {
@@ -84,10 +90,10 @@ app.post('/api/links', authenticate, (req, res) => {
   db.links.push(link);
   saveDb();
   res.json(link);
-  });
+});
 
 app.delete('/api/links/:id', authenticate, (req, res) => {
-  const idx = db.links.findIndex(l => l.id === req.params.id && l.user_id === req.userId);
+   const idx = db.links.findIndex(l => l.id === req.params.id && l.user_id === req.userId);
   if (idx === -1) return res.status(404).json({ error: 'Link not found' });
   db.links.splice(idx, 1);
   saveDb();
@@ -98,20 +104,15 @@ app.delete('/api/links/:id', authenticate, (req, res) => {
 app.get('/t/:shortCode', (req, res) => {
   const { shortCode } = req.params;
   const link = db.links.find(l => l.short_code === shortCode);
-  if (!link) return res.redirect('/404.html');
-    
+  if (!link) return res.redirect('/');
+  
   link.click_count = (link.click_count || 0) + 1;
   db.clicks.push({ id: uuidv4(), link_id: link.id, timestamp: new Date().toISOString() });
-  saveDb();
+    saveDb();
   
   res.redirect(link.target_url);
 });
 
-// Frontend
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 app.listen(PORT, () => {
-console.log('Linkly running on port ' + PORT);
+  console.log('Linkly running on port ' + PORT);
 });
